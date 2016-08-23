@@ -1,0 +1,23 @@
+{
+  "name": "projeto-vampeta",
+  "version": "0.0.1",
+  "description": "Projetão da cadeia",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafapaulin/projetoVampeta.git"
+  },
+  "keywords": [
+    "RPG",
+    "Coop"
+  ],
+  "author": "Rafael Paulin, Eduardo Maia, Gustavo Scopel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rafapaulin/projetoVampeta/issues"
+  },
+  "homepage": "https://github.com/rafapaulin/projetoVampeta#readme"
+}
