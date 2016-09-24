@@ -4,7 +4,8 @@
   "description": "Projetão da cadeia",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,11 @@
   "bugs": {
     "url": "https://github.com/rafapaulin/projetoVampeta/issues"
   },
-  "homepage": "https://github.com/rafapaulin/projetoVampeta#readme"
+  "homepage": "https://github.com/rafapaulin/projetoVampeta#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mongoose": "^4.6.1",
+    "mongoose-autopopulate": "^0.4.0",
+    "mongoose-unique-validator": "^1.0.2"
+  }
 }
