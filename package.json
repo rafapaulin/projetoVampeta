@@ -22,9 +22,15 @@
   },
   "homepage": "https://github.com/rafapaulin/projetoVampeta#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "fs": "0.0.1-security",
+    "mkdirp": "^0.5.1",
     "mongoose": "^4.6.1",
     "mongoose-autopopulate": "^0.4.0",
-    "mongoose-unique-validator": "^1.0.2"
+    "mongoose-unique-validator": "^1.0.2",
+    "passport": "^0.3.2",
+    "winston": "^2.2.0"
   }
 }
