@@ -40,6 +40,7 @@
 // ========================================================== DB Connection check == //
 
 // == Server Start ================================================================= //
+console.log('mongoDB URI: ', process.env.MONGODB_URI);
 	app.listen(app.get('port'), function() {
 	    //console.log('Listening on port %s', app.get('port'));
 		logger().info('Listening on port %s', app.get('port'));
