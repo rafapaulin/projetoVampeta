@@ -1,0 +1,27 @@
+{
+	"tags": {
+		"allowUnknownTags": true
+	},
+	"source": {
+		"include": [
+			"./"
+		],
+		"exclude": [
+			"./logs/",
+			"./node_modules/",
+			"./public/"
+		]
+	},
+	"opts": {
+		"destination": "./public/docs/",
+		"template": "node_modules/docdash",
+		"encoding": "utf8"
+	},
+	"plugins": [
+		"plugins/markdown"
+	],
+    "docdash": {
+        "static": true,
+        "sort": true
+    }
+}
