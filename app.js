@@ -7,7 +7,7 @@
 		bodyParser	=	require('body-parser'),
 		session		=	require('express-session'),
 		passport	=	require('passport'),
-		//logger		=	require("./libraries/logger"),
+		logger		=	require("./libraries/logger"),
 // ================================================================= Requirements == //
 
 // == Environment Variables ======================================================== //
@@ -33,15 +33,15 @@
 // ======================================================== Environment Variables == //
 
 // == DB Connection check ========================================================== //
-	// db.on('error', error => logger().error('Server cannot connect to database:', error.errmsg));
-	// db.once('open', () => logger().info('Server successfully conected to database'));
-	db.on('error', error => console.log('Server cannot connect to database:', error.errmsg));
-	db.once('open', () => console.log('Server successfully conected to database'));
+	db.on('error', error => logger().error('Server cannot connect to database:', error.errmsg));
+	db.once('open', () => logger().info('Server successfully conected to database'));
+	//db.on('error', error => console.log('Server cannot connect to database:', error.errmsg));
+	//db.once('open', () => console.log('Server successfully conected to database'));
 // ========================================================== DB Connection check == //
 
 // == Server Start ================================================================= //
 	app.listen(app.get('port'), function() {
-	           console.log('Listening on port %s', app.get('port'));
-		//logger().info('Listening on port %s', app.get('port'));
+	    //console.log('Listening on port %s', app.get('port'));
+		logger().info('Listening on port %s', app.get('port'));
 	});
 // ================================================================= Server Start == //

@@ -7,6 +7,12 @@
 		passport	= require('passport');
 					  require('./libraries/passport');
 // ================================================================= Requirements == //
+/**
+ /** @function getItems()
+ * @description Selects to which route send the request, based on the URI called.
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
+ */
 function getItems(req, res){
 	switch (req.params.collection) {
 		case 'users':
@@ -18,7 +24,13 @@ function getItems(req, res){
 			res.status(404).json({message: 'Not found!'})
 	}
 };
-
+/**
+ /** @function authStrat()
+ * @description Selects which login strategy to use, based on the URI called.
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
+ * @param {function} next - Callback function that calls the next middleware (provided by expressjs).
+ */
 function authStrat(req, res, next){
 	switch (req.params.strategy) {
 		case 'local':
@@ -32,7 +44,6 @@ function authStrat(req, res, next){
 // == Routes ================================================================= //
 	Router
 		.get( '/:collection/:slug?', (req, res, next) => User.isLoggedIn(req, res, next), (req, res) => getItems(req, res) )
-		//.post( '/auth/:strategy', )
 		.post( '/users', (req, res) => User.registerLocal(req, res) )
 		.post( '/auth/:strategy', (req, res, next) => authStrat(req, res, next) )
 // ================================================================= Routes == //

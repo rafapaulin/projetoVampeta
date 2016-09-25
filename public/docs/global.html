@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>User - Documentation</title>
+    <title>Global - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">User</h1>
+    <h1 class="page-title">Global</h1>
     
 
     
@@ -40,10 +40,8 @@
 <header>
     
         <h2>
-        User
-        </h2>
         
-            <div class="class-description"><p>Class representing a User.</p></div>
+        </h2>
         
     
 </header>
@@ -53,24 +51,8 @@
     
         
 
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="User"><span class="type-signature"></span>new User<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
 <dl class="details">
 
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line8">line 8</a>
-    </li></ul></dd>
     
 
     
@@ -107,31 +89,9 @@
 
 
 
+        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
     
     </div>
 
@@ -155,7 +115,7 @@
 
     
 
-    <h4 class="name" id=".isLoggedIn"><span class="type-signature">(static) </span>isLoggedIn<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="authStrat"><span class="type-signature"></span>authStrat<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
 
     
 
@@ -167,7 +127,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line107">line 107</a>
+        <a href="routes.js.html">routes.js</a>, <a href="routes.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -207,7 +167,7 @@
 
 
 <div class="description">
-    <p>This method is suposed to be used as the first middleware in a route if the user must be logged in to recieve the data.</p>
+    <p>Selects which login strategy to use, based on the URI called.</p>
 </div>
 
 
@@ -334,7 +294,7 @@
 
     
 
-    <h4 class="name" id=".list"><span class="type-signature">(static) </span>list<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="authStrat"><span class="type-signature"></span>authStrat<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
 
     
 
@@ -346,7 +306,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line62">line 62</a>
+        <a href="routes.js.html">routes.js</a>, <a href="routes.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -386,163 +346,7 @@
 
 
 <div class="description">
-    <p>This method is suposed to be used as a middleware.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Requisition object (provided by expressjs).</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>res</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Response object (provided by expressjs).</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".login"><span class="type-signature">(static) </span>login<span class="signature">(req, res, next)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line83">line 83</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>This method is suposed to be used as a middleware.</p>
+    <p>Selects which login strategy to use, based on the URI called.</p>
 </div>
 
 
@@ -669,7 +473,7 @@
 
     
 
-    <h4 class="name" id=".registerLocal"><span class="type-signature">(static) </span>registerLocal<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getItems"><span class="type-signature"></span>getItems<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
 
     
 
@@ -681,7 +485,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line15">line 15</a>
+        <a href="routes.js.html">routes.js</a>, <a href="routes.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -721,7 +525,7 @@
 
 
 <div class="description">
-    <p>This method is suposed to be used as a middleware.</p>
+    <p>Selects to which route send the request, based on the URI called.</p>
 </div>
 
 
@@ -825,7 +629,7 @@
 
     
 
-    <h4 class="name" id=".show"><span class="type-signature">(static) </span>show<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getItems"><span class="type-signature"></span>getItems<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
 
     
 
@@ -837,7 +641,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line39">line 39</a>
+        <a href="routes.js.html">routes.js</a>, <a href="routes.js.html#line16">line 16</a>
     </li></ul></dd>
     
 
@@ -877,7 +681,7 @@
 
 
 <div class="description">
-    <p>This method is suposed to be used as a middleware.</p>
+    <p>Selects to which route send the request, based on the URI called.</p>
 </div>
 
 
@@ -955,162 +759,6 @@
             
 
             <td class="description last"><p>Response object (provided by expressjs).</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".slugger"><span class="type-signature">(static) </span>slugger<span class="signature">(req, username)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line123">line 123</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-<div class="description">
-    <p>Slugfy the User name provided for routing purposes.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>req</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>requisition containing the User Data that will be updated by the method.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>username</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>User name provided to be slugfied.</p></td>
         </tr>
 
     
