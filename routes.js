@@ -4,6 +4,8 @@
 	let	express		= require('express'),
 		Router		= express.Router(),
 		User		= require('./controllers/UserController'),
+		Character	= require('./controllers/CharacterController'),
+		Quest		= require('./controllers/QuestController'),
 		passport	= require('passport');
 					  require('./libraries/passport');
 // ================================================================= Requirements == //
@@ -19,6 +21,7 @@ function getItems(req, res){
 			req.params.slug ? User.show(req, res) : User.list(req, res);
 			break;
 		case 'characters':
+			req.params.slug ? Character.show(req, res) : Character.list(req, res);
 			break;
 		default:
 			res.status(404).json({message: 'Not found!'})
@@ -36,16 +39,24 @@ function authStrat(req, res, next){
 		case 'local':
 			User.login(req, res, next);
 			break;
-		default:
-			res.status(404).json({message: 'Not found!'})
+		case 'logout':
+			User.logOut(req, res);
+			break;
 	}
 };
 
 // == Routes ================================================================= //
 	Router
-		.get( '/:collection/:slug?', (req, res, next) => User.isLoggedIn(req, res, next), (req, res) => getItems(req, res) )
-		.post( '/users', (req, res) => User.registerLocal(req, res) )
-		.post( '/auth/:strategy', (req, res, next) => authStrat(req, res, next) )
+		.get( '/:collection/:slug?',	(req, res, next) => User.isLoggedIn(req, res, next), (req, res) => getItems(req, res) )
+
+		.post( '/auth/:strategy',		(req, res, next) => authStrat(req, res, next) )
+		
+		.post('/quests/update',			(req, res) => Quest.updateNode(req, res) )
+		.post('/quests/reset',			(req, res) => Quest.resetNodes(req, res) )
+
+		.post( '/users',				(req, res) => User.registerLocal(req, res) )
+		.post( '/characters',			(req, res, next) => User.isLoggedIn(req, res, next), (req, res) => Character.create(req, res) )
+
 // ================================================================= Routes == //
 
 module.exports = Router;
