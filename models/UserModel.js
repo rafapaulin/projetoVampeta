@@ -7,72 +7,74 @@ var	mongoose		= require('mongoose'),
 	saltFactor		= 10,
 
 	UserModel		= new Model({
-// == General ================================================================================================================================= //
-			userName: {
-				type: String,
-				unique: true,
-				uniqueCaseInsensitive: true
-			},
-			password: {
-				type: String,
-				minlength: 4
-			},
-			slug: {
-				type: String,
-				unique: true,
-				uniqueCaseInsensitive: true
-			},
-			name: {
-				type: String
-			},
-			email: {
-				type: String,
-				unique: true,
-				uniqueCaseInsensitive: true
-			},
-			country: {
-				type: String
-			},
-			memberSince: {
-				type: Date
-			},
-			characters: {},
-			// socialIDs: {
-			// 	facebook: {
-			// 		id:	{type: String},
-			// 		email: {type: String},
-			// 		name: {type: String},
-			// 		profileLink: {type: String},
-			// 		profilePic: {type: String},
-			// 		token: {type: String},
-			// 		secret: {type: String}
-			// 	},
-			// 	twitter: {
-			// 		id: {type: String},
-			// 		email: {type: String},
-			// 		name: {type: String},
-			// 		profileLink: {type: String},
-			// 		profilePic: {type: String},
-			// 		token: {type: String},
-			// 		secret: {type: String},
-			// 		screenName: {type: String}
-			// 	},
-			// 	google: {
-			// 		id: {type: String},
-			// 		email: {type: String},
-			// 		name: {type: String},
-			// 		profileLink: {type: String},
-			// 		profilePic: {type: String},
-			// 		token: {type: String},
-			// 		secret: {type: String}
-			// 	}
-			// },
-// ================================================================================================================================= General == //
+		userName: {
+			type: String,
+			unique: true,
+			uniqueCaseInsensitive: true
 		},
-		{
-			collection: 'users'
-		}
-	);
+		password: {
+			type: String,
+			minlength: 4
+		},
+		slug: {
+			type: String,
+			unique: true,
+			uniqueCaseInsensitive: true
+		},
+		name: {
+			type: String
+		},
+		email: {
+			type: String,
+			unique: true,
+			uniqueCaseInsensitive: true
+		},
+		country: {
+			type: String
+		},
+		memberSince: {
+			type: Date
+		},
+		characters: [
+			{
+				type: Model.Types.ObjectId,
+				ref: 'Character'
+			}
+		],
+		// socialIDs: {
+		// 	facebook: {
+		// 		id:	{type: String},
+		// 		email: {type: String},
+		// 		name: {type: String},
+		// 		profileLink: {type: String},
+		// 		profilePic: {type: String},
+		// 		token: {type: String},
+		// 		secret: {type: String}
+		// 	},
+		// 	twitter: {
+		// 		id: {type: String},
+		// 		email: {type: String},
+		// 		name: {type: String},
+		// 		profileLink: {type: String},
+		// 		profilePic: {type: String},
+		// 		token: {type: String},
+		// 		secret: {type: String},
+		// 		screenName: {type: String}
+		// 	},
+		// 	google: {
+		// 		id: {type: String},
+		// 		email: {type: String},
+		// 		name: {type: String},
+		// 		profileLink: {type: String},
+		// 		profilePic: {type: String},
+		// 		token: {type: String},
+		// 		secret: {type: String}
+		// 	}
+		// },
+	},
+	{
+		collection: 'users'
+	});
 
 // == Password hashing ====================================================================================================================== //
 /**
@@ -118,4 +120,4 @@ var	mongoose		= require('mongoose'),
 UserModel.plugin(uniqueV);								// validate unique values
 UserModel.plugin(autopopulate);						// Autopopulate users
 
-module.exports = mongoose.model('Users', UserModel);	// Export module
+module.exports = mongoose.model('User', UserModel);	// Export module

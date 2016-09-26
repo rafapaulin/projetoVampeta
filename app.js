@@ -1,6 +1,6 @@
 'use strict';
 // == Requirements ================================================================= //
-	var mongoose	=	require('mongoose').connect('mongodb://vampeta:vampetaFTW@ds025583.mlab.com:25583/heroku_bs4683k6'),
+	var mongoose	=	require('mongoose').connect((process.env.MONGODB_URI || 'mongodb://127.0.0.1/test')),
 		express		=	require('express'),
 		routes		=	require('./routes'),
 		cookie		=	require('cookie-parser'),
@@ -8,20 +8,16 @@
 		session		=	require('express-session'),
 		passport	=	require('passport'),
 		logger		=	require("./libraries/logger"),
+		app			=	express();
 // ================================================================= Requirements == //
 
-// == Environment Variables ======================================================== //
-		app			=	express(),
-		db			=	mongoose.connection;
-
 	app.set('port', (process.env.PORT || 8666));
-	app.set('views', __dirname + '/views');
 	app.use(express.static('public'));
 	app.use(cookie());
 	app.use(bodyParser.json());
 	app.use(session(
 		{
-			secret: 'chalah, head chalah, não importa o que aconteça....',
+			secret: (process.env.SESSION_SECRET || 'vampeta'),
 			resave: false,
 			saveUninitialized: true,
 			cookie: {secure: false}
@@ -30,18 +26,13 @@
 	app.use(passport.initialize());
 	app.use(passport.session());
 	app.use('/', routes);
-// ======================================================== Environment Variables == //
 
 // == DB Connection check ========================================================== //
-	db.on('error', error => logger().error('Server cannot connect to database:', error.errmsg));
-	db.once('open', () => logger().info('Server successfully conected to database'));
-	//db.on('error', error => console.log('Server cannot connect to database:', error.errmsg));
-	//db.once('open', () => console.log('Server successfully conected to database'));
+	mongoose.connection
+		.once('open', () => logger().info('Server successfully conected to database'))
+		.on('error', error => logger().error(`Server cannot connect to database: ${error.message}`));
 // ========================================================== DB Connection check == //
 
 // == Server Start ================================================================= //
-	app.listen(app.get('port'), function() {
-	    //console.log('Listening on port %s', app.get('port'));
-		logger().info('Listening on port %s', app.get('port'));
-	});
+	app.listen(app.get('port'), () => logger().info(`Listening on port ${app.get('port')}`) );
 // ================================================================= Server Start == //

@@ -32,7 +32,6 @@ class User {
 	}
 /**
  * @description Return a JSON with the user data.
- * @description This method is suposed to be used as a middleware.
  * @param {object} req - Requisition object (provided by expressjs).
  * @param {object} res - Response object (provided by expressjs).
  */
@@ -55,7 +54,6 @@ class User {
 	}
 /**
  * @description Return a list (as array) of JSONs with the users data.
- * @description This method is suposed to be used as a middleware.
  * @param {object} req - Requisition object (provided by expressjs).
  * @param {object} res - Response object (provided by expressjs).
  */
@@ -115,6 +113,15 @@ class User {
 	// static update(){}
 	// static delete(){}
 
+/**
+ * @description Logs the user out, destroying current session
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
+ */
+	static logOut(req, res){
+		req.logout();
+		res.redirect('/');
+	}
 /**
  * @description Slugfy the User name provided for routing purposes.
  * @param {object} req - requisition containing the User Data that will be updated by the method.
