@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="User.html#.list">list</a></li><li data-type='method'><a href="User.html#.login">login</a></li><li data-type='method'><a href="User.html#.registerLocal">registerLocal</a></li><li data-type='method'><a href="User.html#.show">show</a></li><li data-type='method'><a href="User.html#.slugger">slugger</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#authStrat">authStrat</a></li><li><a href="global.html#getItems">getItems</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Quest.html">Quest</a></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="User.html#.login">login</a></li><li data-type='method'><a href="User.html#.logOut">logOut</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#authStrat">authStrat</a></li><li><a href="global.html#createItems">createItems</a></li><li><a href="global.html#getItems">getItems</a></li></ul>
 </nav>
 
 <div id="main">
@@ -46,72 +46,74 @@ var	mongoose		= require('mongoose'),
 	saltFactor		= 10,
 
 	UserModel		= new Model({
-// == General ================================================================================================================================= //
-			userName: {
-				type: String,
-				unique: true,
-				uniqueCaseInsensitive: true
-			},
-			password: {
-				type: String,
-				minlength: 4
-			},
-			slug: {
-				type: String,
-				unique: true,
-				uniqueCaseInsensitive: true
-			},
-			name: {
-				type: String
-			},
-			email: {
-				type: String,
-				unique: true,
-				uniqueCaseInsensitive: true
-			},
-			country: {
-				type: String
-			},
-			memberSince: {
-				type: Date
-			},
-			characters: {},
-			// socialIDs: {
-			// 	facebook: {
-			// 		id:	{type: String},
-			// 		email: {type: String},
-			// 		name: {type: String},
-			// 		profileLink: {type: String},
-			// 		profilePic: {type: String},
-			// 		token: {type: String},
-			// 		secret: {type: String}
-			// 	},
-			// 	twitter: {
-			// 		id: {type: String},
-			// 		email: {type: String},
-			// 		name: {type: String},
-			// 		profileLink: {type: String},
-			// 		profilePic: {type: String},
-			// 		token: {type: String},
-			// 		secret: {type: String},
-			// 		screenName: {type: String}
-			// 	},
-			// 	google: {
-			// 		id: {type: String},
-			// 		email: {type: String},
-			// 		name: {type: String},
-			// 		profileLink: {type: String},
-			// 		profilePic: {type: String},
-			// 		token: {type: String},
-			// 		secret: {type: String}
-			// 	}
-			// },
-// ================================================================================================================================= General == //
+		name: {
+			type: String,
+			unique: true,
+			uniqueCaseInsensitive: true
 		},
-		{
-			collection: 'users'
-		}
-	);
+		password: {
+			type: String,
+			minlength: 4
+		},
+		slug: {
+			type: String,
+			unique: true,
+			uniqueCaseInsensitive: true
+		},
+		nameRL: {
+			type: String
+		},
+		email: {
+			type: String,
+			unique: true,
+			uniqueCaseInsensitive: true
+		},
+		country: {
+			type: String
+		},
+		memberSince: {
+			type: Date
+		},
+		characters: [
+			{
+				type: Model.Types.ObjectId,
+				ref: 'Character'
+			}
+		],
+		// socialIDs: {
+		// 	facebook: {
+		// 		id:	{type: String},
+		// 		email: {type: String},
+		// 		name: {type: String},
+		// 		profileLink: {type: String},
+		// 		profilePic: {type: String},
+		// 		token: {type: String},
+		// 		secret: {type: String}
+		// 	},
+		// 	twitter: {
+		// 		id: {type: String},
+		// 		email: {type: String},
+		// 		name: {type: String},
+		// 		profileLink: {type: String},
+		// 		profilePic: {type: String},
+		// 		token: {type: String},
+		// 		secret: {type: String},
+		// 		screenName: {type: String}
+		// 	},
+		// 	google: {
+		// 		id: {type: String},
+		// 		email: {type: String},
+		// 		name: {type: String},
+		// 		profileLink: {type: String},
+		// 		profilePic: {type: String},
+		// 		token: {type: String},
+		// 		secret: {type: String}
+		// 	}
+		// },
+	},
+	{
+		collection: 'users'
+	});
 
 // == Password hashing ====================================================================================================================== //
 /**
@@ -157,7 +159,7 @@ var	mongoose		= require('mongoose'),
 UserModel.plugin(uniqueV);								// validate unique values
 UserModel.plugin(autopopulate);						// Autopopulate users
 
-module.exports = mongoose.model('Users', UserModel);	// Export module</code></pre>
+module.exports = mongoose.model('User', UserModel);	// Export module</code></pre>
         </article>
     </section>
 
@@ -169,7 +171,7 @@ module.exports = mongoose.model('Users', UserModel);	// Export module</code></pr
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Sat Sep 24 2016 21:32:28 GMT-0300 (BRT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Tue Sep 27 2016 20:50:59 GMT-0300 (BRT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

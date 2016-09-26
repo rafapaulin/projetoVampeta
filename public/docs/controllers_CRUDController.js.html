@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>controllers/CRUDController.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Quest.html">Quest</a></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="User.html#.login">login</a></li><li data-type='method'><a href="User.html#.logOut">logOut</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#authStrat">authStrat</a></li><li><a href="global.html#createItems">createItems</a></li><li><a href="global.html#getItems">getItems</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">controllers/CRUDController.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>logger		=	require("../libraries/logger");
+
+class Crud {
+/**
+ * @description Register a User using Local Strategy (Local account).
+ * @description This method is suposed to be used as a middleware.
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
+ * @param {function} next - Callback function that calls the next middleware (provided by expressjs).
+ * @param {string} model - Model name of the items to be showed (singular, capitalized).
+ */
+	static create(req, res, next, model){
+		let Model = this.modelNamer(model);
+
+		if(req.body.name)
+			this.slugger(req, req.body.name);		// Create the slug based on userName
+		req.body.memberSince = new Date;				// Set the creation date
+		// == For Testing ============================================================ //
+			if(model === 'Character') {
+				req.body.quests = [
+					{
+						name: 'Vampeta\'s First Quest',
+						nodes: [
+							{
+								name: 'First node',
+								completed: false
+							},
+							{
+								name: 'Second node',
+								completed: false
+							},
+							{
+								name: 'Third node',
+								completed: false
+							},
+							{
+								name: 'Boss',
+								completed: false
+							}
+						]
+					}
+				]
+			}
+		// ============================================================ For Testing == //
+		new Model(req.body).save(function(err){
+			if(!err)
+				res.status(201).json({message: `${req.body.name} successfully created.`});
+			else {
+				let errorsMsgs = [];
+				for(var index in err.errors) { 
+					errorsMsgs.push(err.errors[index]['message']);
+				}
+				logger().error(errorsMsgs);						// Log error
+				res.status(500).json({message: err});	// Send error to client
+			}
+		});
+	}
+/**
+ * @description Return a JSON with the item data.
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
+ * @param {function} next - Callback function that calls the next middleware (provided by expressjs).
+ * @param {string} model - Model name of the items to be showed (singular, capitalized).
+ */
+	static show(req, res, next, model){
+		let Model = this.modelNamer(model);
+
+		Model.findOne(
+			{'slug': req.params.slug},						// Query parameters
+			function(err, item){							// Get the requested document to deal with data
+				if (!err)
+					res.status(200).json(item);				// Send item to client
+				else {
+					let errorsMsgs = [];
+					for(var index in err.errors) {
+						errorsMsgs.push(err.errors[index]['message']);
+					}
+					logger().error(errorsMsgs);						// Log error
+					res.status(500).json({message: errorsMsgs});	// Send error to client
+				}
+			}
+		);
+	}
+/**
+ * @description Return a list (as array) of JSONs with the items data.
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
+ * @param {function} next - Callback function that calls the next middleware (provided by expressjs).
+ * @param {string} model - Model name of the items to be listed (singular, capitalized).
+ */
+	static list(req, res, next, model){
+		let Model = this.modelNamer(model);
+
+		Model.find(function(err, items){
+			if (!err)
+				res.status(200).json(items);						// Send list of items to client
+			else {
+				let errorsMsgs = [];
+				for(var index in err.errors) { 
+					errorsMsgs.push(err.errors[index]['message']);
+				}
+				logger().error(errorsMsgs);							// Log error
+				res.status(500).json({message: errorsMsgs});		// Send error to client
+			}
+		});
+	}
+/**
+ * @description Slugfy the User name provided for routing purposes.
+ * @param {object} req - requisition containing the User Data that will be updated by the method.
+ * @param {string} username - UserName to be slugfied.
+ */
+	static slugger(req, username){
+		var slug = require('slug');				// Require slug plugin only if needed
+		req.body.slug = slug(username, {		// Automatic generate slugs based on name
+			replacement: '-',					// replace spaces with replacement 
+			symbols: true,						// replace unicode symbols or not 
+			remove: null,						// (optional) regex to remove characters 
+			lower: true,						// result in lower case 
+			charmap: slug.charmap,				// replace special characters 
+			multicharmap: slug.multicharmap		// replace multi-characters 
+		});
+	}
+/**
+ * @description Return the model of the entity as mongoose object.
+ * @param {string} model - Model to be loaded (singular, capitalized).
+ */
+	static modelNamer(model){
+		return require('../models/' + model + 'Model')
+	}
+}
+module.exports = Crud;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Tue Sep 27 2016 20:50:59 GMT-0300 (BRT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

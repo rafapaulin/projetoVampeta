@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="User.html#.list">list</a></li><li data-type='method'><a href="User.html#.login">login</a></li><li data-type='method'><a href="User.html#.registerLocal">registerLocal</a></li><li data-type='method'><a href="User.html#.show">show</a></li><li data-type='method'><a href="User.html#.slugger">slugger</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#authStrat">authStrat</a></li><li><a href="global.html#getItems">getItems</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Quest.html">Quest</a></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="User.html#.login">login</a></li><li data-type='method'><a href="User.html#.logOut">logOut</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#authStrat">authStrat</a></li><li><a href="global.html#createItems">createItems</a></li><li><a href="global.html#getItems">getItems</a></li></ul>
 </nav>
 
 <div id="main">
@@ -38,80 +38,12 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
+require('../libraries/passport');
 
-let UserModel	= require('../models/UserModel'),
-	logger		= require("../libraries/logger"),
+let logger		= require("../libraries/logger"),
 	passport	= require('passport');	
-				  require('../libraries/passport');
 /** Class representing a User. */
 class User {
-/**
- * @description Register a User using Local Strategy (Local account).
- * @description This method is suposed to be used as a middleware.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- */
-	static registerLocal(req, res){
-		if(req.body.userName)
-			this.slugger(req, req.body.userName);		// Create the slug based on userName
-		req.body.memberSince = new Date;				// Set the creation date
-
-		new UserModel(req.body).save(function(err){
-			if(!err)
-				res.status(201).json({message: `account ${req.body.userName} successfully created. Please log in.`});
-			else {
-				let errorsMsgs = [];
-				for(var index in err.errors) { 
-					errorsMsgs.push(err.errors[index]['message']);
-				}
-				logger().error(errorsMsgs);						// Log error
-				res.status(500).json({message: errorsMsgs});	// Send error to client
-			}
-		});
-	}
-/**
- * @description Return a JSON with the user data.
- * @description This method is suposed to be used as a middleware.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- */
-	static show(req, res){
-		UserModel.findOne(
-			{'slug': req.params.slug},								// Query parameters
-			function(err, user){									// Get the requested document to deal with data
-				if (!err)
-					res.status(200).json(user);						// Send item to client
-				else {
-					let errorsMsgs = [];
-					for(var index in err.errors) {
-						errorsMsgs.push(err.errors[index]['message']);
-					}
-					logger().error(errorsMsgs);						// Log error
-					res.status(500).json({message: errorsMsgs});	// Send error to client
-				}
-			}
-		);
-	}
-/**
- * @description Return a list (as array) of JSONs with the users data.
- * @description This method is suposed to be used as a middleware.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- */
-	static list(req, res){
-		UserModel.find(function(err, users){
-			if (!err)
-				res.status(200).json(users);						// Send list of items to client
-			else {
-				let errorsMsgs = [];
-				for(var index in err.errors) { 
-					errorsMsgs.push(err.errors[index]['message']);
-				}
-				logger().error(errorsMsgs);							// Log error
-				res.status(500).json({message: errorsMsgs});		// Send error to client
-			}
-		});
-	}
 /**
  * @description Logs the user in.
  * @description This method is suposed to be used as a middleware.
@@ -155,20 +87,13 @@ class User {
 	// static delete(){}
 
 /**
- * @description Slugfy the User name provided for routing purposes.
- * @param {object} req - requisition containing the User Data that will be updated by the method.
- * @param {string} username - User name provided to be slugfied.
+ * @description Logs the user out, destroying current session
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
  */
-	static slugger(req, username){
-		var slug = require('slug');				// Require slug plugin only if needed
-		req.body.slug = slug(username, {		// Automatic generate slugs based on name
-			replacement: '-',					// replace spaces with replacement 
-			symbols: true,						// replace unicode symbols or not 
-			remove: null,						// (optional) regex to remove characters 
-			lower: true,						// result in lower case 
-			charmap: slug.charmap,				// replace special characters 
-			multicharmap: slug.multicharmap		// replace multi-characters 
-		});
+	static logOut(req, res){
+		req.logout();
+		res.redirect('/');
 	}
 }
 
@@ -184,7 +109,7 @@ module.exports = User;</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Sat Sep 24 2016 21:32:28 GMT-0300 (BRT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Tue Sep 27 2016 20:50:59 GMT-0300 (BRT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
