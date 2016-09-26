@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>controllers/UserController.js - Documentation</title>
+    <title>controllers/CharacterController.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -27,7 +27,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">controllers/UserController.js</h1>
+    <h1 class="page-title">controllers/CharacterController.js</h1>
     
 
     
@@ -38,27 +38,50 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
+let CharacterModel	= require('../models/CharacterModel'),
+	logger			= require("../libraries/logger");
 
-let UserModel	= require('../models/UserModel'),
-	logger		= require("../libraries/logger"),
-	passport	= require('passport');	
-				  require('../libraries/passport');
-/** Class representing a User. */
-class User {
+/** Class representing a Character. */
+class Character {
 /**
- * @description Register a User using Local Strategy (Local account).
- * @description This method is suposed to be used as a middleware.
+ * @description Creates a character in the logged user account.
  * @param {object} req - Requisition object (provided by expressjs).
  * @param {object} res - Response object (provided by expressjs).
  */
-	static registerLocal(req, res){
-		if(req.body.userName)
-			this.slugger(req, req.body.userName);		// Create the slug based on userName
-		req.body.memberSince = new Date;				// Set the creation date
+	static create(req, res){
+		this.slugger(req, req.body.name);	// Create the slug based on character name
+		req.body.createdAt = new Date;		// Set the creation date
+		req.body.createdBy = req.user._id;	// Set the author
 
-		new UserModel(req.body).save(function(err){
+		// == For Testing ============================================================ //
+			req.body.quests = [
+				{
+					name: 'Vampeta\'s First Quest',
+					nodes: [
+						{
+							name: 'First node',
+							completed: false
+						},
+						{
+							name: 'Second node',
+							completed: false
+						},
+						{
+							name: 'Third node',
+							completed: false
+						},
+						{
+							name: 'Boss',
+							completed: false
+						}
+					]
+				}
+			]
+		// ============================================================ For Testing == //
+
+		new CharacterModel(req.body).save(function(err){
 			if(!err)
-				res.status(201).json({message: `account ${req.body.userName} successfully created. Please log in.`});
+				res.status(201).json({message: `${req.body.name} has arrived at the village.`});
 			else {
 				let errorsMsgs = [];
 				for(var index in err.errors) { 
@@ -70,16 +93,16 @@ class User {
 		});
 	}
 /**
- * @description Return a JSON with the user data.
+ * @description Return a JSON with the character data.
  * @param {object} req - Requisition object (provided by expressjs).
  * @param {object} res - Response object (provided by expressjs).
  */
 	static show(req, res){
-		UserModel.findOne(
+		CharacterModel.findOne(
 			{'slug': req.params.slug},								// Query parameters
-			function(err, user){									// Get the requested document to deal with data
+			function(err, character){								// Get the requested document to deal with data
 				if (!err)
-					res.status(200).json(user);						// Send item to client
+					res.status(200).json(character);				// Send item to client
 				else {
 					let errorsMsgs = [];
 					for(var index in err.errors) {
@@ -92,14 +115,14 @@ class User {
 		);
 	}
 /**
- * @description Return a list (as array) of JSONs with the users data.
+ * @description Return a list (as array) of JSONs with the characters data.
  * @param {object} req - Requisition object (provided by expressjs).
  * @param {object} res - Response object (provided by expressjs).
  */
 	static list(req, res){
-		UserModel.find(function(err, users){
+		CharacterModel.find(function(err, character){
 			if (!err)
-				res.status(200).json(users);						// Send list of items to client
+				res.status(200).json(character);						// Send list of items to client
 			else {
 				let errorsMsgs = [];
 				for(var index in err.errors) { 
@@ -109,57 +132,6 @@ class User {
 				res.status(500).json({message: errorsMsgs});		// Send error to client
 			}
 		});
-	}
-/**
- * @description Logs the user in.
- * @description This method is suposed to be used as a middleware.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- * @param {function} next - Callback function that calls the next middleware (provided by expressjs).
- */
-	static login(req, res, next){
-		let scope;
-		scope = function(err, user, info){
-			if (err) return next(err);
-			if (user) {										// Check for user
-				if (err) return next(err);
-				req.login(user, function (err) {			// Stabilishes Session for the user
-					if (err) return next(err);
-				})
-				res.json(user);
-				next();
-			} else {
-				res.status(500).json(info);					// Send error object to front end
-			}
-		}
-		return passport.authenticate('local', scope)(req, res, next);
-	}
-/**
- * @description Check if the user is logged in
- * @description This method is suposed to be used as the first middleware in a route if the user must be logged in to recieve the data.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- * @param {function} next - Callback function that calls the next middleware (provided by expressjs).
- */
-	static isLoggedIn(req, res, next){
-		if (req.isAuthenticated()){
-			console.log('Autenticado!!!');
-			return next();
-		} else {
-			res.status(401).json({message: 'Not Logged in'});
-		}
-	}
-	// static update(){}
-	// static delete(){}
-
-/**
- * @description Logs the user out, destroying current session
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- */
-	static logOut(req, res){
-		req.logout();
-		res.redirect('/');
 	}
 /**
  * @description Slugfy the User name provided for routing purposes.
@@ -179,7 +151,7 @@ class User {
 	}
 }
 
-module.exports = User;</code></pre>
+module.exports = Character;</code></pre>
         </article>
     </section>
 

@@ -22,7 +22,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="User.html#.list">list</a></li><li data-type='method'><a href="User.html#.login">login</a></li><li data-type='method'><a href="User.html#.registerLocal">registerLocal</a></li><li data-type='method'><a href="User.html#.show">show</a></li><li data-type='method'><a href="User.html#.slugger">slugger</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#authStrat">authStrat</a></li><li><a href="global.html#getItems">getItems</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Character.html">Character</a><ul class='methods'><li data-type='method'><a href="Character.html#.create">create</a></li><li data-type='method'><a href="Character.html#.list">list</a></li><li data-type='method'><a href="Character.html#.show">show</a></li><li data-type='method'><a href="Character.html#.slugger">slugger</a></li></ul></li><li><a href="Quest.html">Quest</a></li><li><a href="User.html">User</a><ul class='methods'><li data-type='method'><a href="User.html#.isLoggedIn">isLoggedIn</a></li><li data-type='method'><a href="User.html#.list">list</a></li><li data-type='method'><a href="User.html#.login">login</a></li><li data-type='method'><a href="User.html#.logOut">logOut</a></li><li data-type='method'><a href="User.html#.registerLocal">registerLocal</a></li><li data-type='method'><a href="User.html#.show">show</a></li><li data-type='method'><a href="User.html#.slugger">slugger</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#authStrat">authStrat</a></li><li><a href="global.html#getItems">getItems</a></li></ul>
 </nav>
 
 <div id="main">
@@ -167,7 +167,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line107">line 107</a>
+        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line105">line 105</a>
     </li></ul></dd>
     
 
@@ -346,7 +346,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line62">line 62</a>
+        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line60">line 60</a>
     </li></ul></dd>
     
 
@@ -386,7 +386,7 @@
 
 
 <div class="description">
-    <p>This method is suposed to be used as a middleware.</p>
+    <p>Return a list (as array) of JSONs with the users data.</p>
 </div>
 
 
@@ -502,7 +502,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line83">line 83</a>
+        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line81">line 81</a>
     </li></ul></dd>
     
 
@@ -643,6 +643,162 @@
             
 
             <td class="description last"><p>Callback function that calls the next middleware (provided by expressjs).</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".logOut"><span class="type-signature">(static) </span>logOut<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line121">line 121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description">
+    <p>Logs the user out, destroying current session</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Requisition object (provided by expressjs).</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Response object (provided by expressjs).</p></td>
         </tr>
 
     
@@ -837,7 +993,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line39">line 39</a>
+        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -877,7 +1033,7 @@
 
 
 <div class="description">
-    <p>This method is suposed to be used as a middleware.</p>
+    <p>Return a JSON with the user data.</p>
 </div>
 
 
@@ -993,7 +1149,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line123">line 123</a>
+        <a href="controllers_UserController.js.html">controllers/UserController.js</a>, <a href="controllers_UserController.js.html#line130">line 130</a>
     </li></ul></dd>
     
 
@@ -1150,7 +1306,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Sat Sep 24 2016 21:32:28 GMT-0300 (BRT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.1</a> on Mon Sep 26 2016 00:37:59 GMT-0300 (BRT) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
