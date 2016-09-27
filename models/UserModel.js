@@ -7,7 +7,7 @@ var	mongoose		= require('mongoose'),
 	saltFactor		= 10,
 
 	UserModel		= new Model({
-		userName: {
+		name: {
 			type: String,
 			unique: true,
 			uniqueCaseInsensitive: true
@@ -21,7 +21,7 @@ var	mongoose		= require('mongoose'),
 			unique: true,
 			uniqueCaseInsensitive: true
 		},
-		name: {
+		nameRL: {
 			type: String
 		},
 		email: {

@@ -85,4 +85,3 @@ class Quest {
 	}
 }
 module.exports = Quest;
-//{"character": "the-try"}

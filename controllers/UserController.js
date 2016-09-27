@@ -7,71 +7,6 @@ let UserModel	= require('../models/UserModel'),
 /** Class representing a User. */
 class User {
 /**
- * @description Register a User using Local Strategy (Local account).
- * @description This method is suposed to be used as a middleware.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- */
-	static registerLocal(req, res){
-		if(req.body.userName)
-			this.slugger(req, req.body.userName);		// Create the slug based on userName
-		req.body.memberSince = new Date;				// Set the creation date
-
-		new UserModel(req.body).save(function(err){
-			if(!err)
-				res.status(201).json({message: `account ${req.body.userName} successfully created. Please log in.`});
-			else {
-				let errorsMsgs = [];
-				for(var index in err.errors) { 
-					errorsMsgs.push(err.errors[index]['message']);
-				}
-				logger().error(errorsMsgs);						// Log error
-				res.status(500).json({message: errorsMsgs});	// Send error to client
-			}
-		});
-	}
-/**
- * @description Return a JSON with the user data.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- */
-	static show(req, res){
-		UserModel.findOne(
-			{'slug': req.params.slug},								// Query parameters
-			function(err, user){									// Get the requested document to deal with data
-				if (!err)
-					res.status(200).json(user);						// Send item to client
-				else {
-					let errorsMsgs = [];
-					for(var index in err.errors) {
-						errorsMsgs.push(err.errors[index]['message']);
-					}
-					logger().error(errorsMsgs);						// Log error
-					res.status(500).json({message: errorsMsgs});	// Send error to client
-				}
-			}
-		);
-	}
-/**
- * @description Return a list (as array) of JSONs with the users data.
- * @param {object} req - Requisition object (provided by expressjs).
- * @param {object} res - Response object (provided by expressjs).
- */
-	static list(req, res){
-		UserModel.find(function(err, users){
-			if (!err)
-				res.status(200).json(users);						// Send list of items to client
-			else {
-				let errorsMsgs = [];
-				for(var index in err.errors) { 
-					errorsMsgs.push(err.errors[index]['message']);
-				}
-				logger().error(errorsMsgs);							// Log error
-				res.status(500).json({message: errorsMsgs});		// Send error to client
-			}
-		});
-	}
-/**
  * @description Logs the user in.
  * @description This method is suposed to be used as a middleware.
  * @param {object} req - Requisition object (provided by expressjs).
@@ -121,22 +56,6 @@ class User {
 	static logOut(req, res){
 		req.logout();
 		res.redirect('/');
-	}
-/**
- * @description Slugfy the User name provided for routing purposes.
- * @param {object} req - requisition containing the User Data that will be updated by the method.
- * @param {string} username - User name provided to be slugfied.
- */
-	static slugger(req, username){
-		var slug = require('slug');				// Require slug plugin only if needed
-		req.body.slug = slug(username, {		// Automatic generate slugs based on name
-			replacement: '-',					// replace spaces with replacement 
-			symbols: true,						// replace unicode symbols or not 
-			remove: null,						// (optional) regex to remove characters 
-			lower: true,						// result in lower case 
-			charmap: slug.charmap,				// replace special characters 
-			multicharmap: slug.multicharmap		// replace multi-characters 
-		});
 	}
 }
 

@@ -4,8 +4,8 @@
 	let	express		= require('express'),
 		Router		= express.Router(),
 		User		= require('./controllers/UserController'),
-		Character	= require('./controllers/CharacterController'),
 		Quest		= require('./controllers/QuestController'),
+		Crud 		= require('./controllers/CRUDController'),
 		passport	= require('passport');
 					  require('./libraries/passport');
 // ================================================================= Requirements == //
@@ -15,13 +15,31 @@
  * @param {object} req - Requisition object (provided by expressjs).
  * @param {object} res - Response object (provided by expressjs).
  */
-function getItems(req, res){
+function getItems(req, res, next){
 	switch (req.params.collection) {
 		case 'users':
-			req.params.slug ? User.show(req, res) : User.list(req, res);
+			req.params.slug ? Crud.show(req, res, next, 'User') : Crud.list(req, res, next,'User');
 			break;
 		case 'characters':
-			req.params.slug ? Character.show(req, res) : Character.list(req, res);
+			req.params.slug ? Crud.show(req, res, next, 'Character') : Crud.list(req, res, next, 'Character');
+			break;
+		default:
+			res.status(404).json({message: 'Not found!'})
+	}
+};
+/**
+ /** @function createItems()
+ * @description Selects to which route send the request, based on the URI called.
+ * @param {object} req - Requisition object (provided by expressjs).
+ * @param {object} res - Response object (provided by expressjs).
+ */
+function createItems(req, res, next){
+	switch (req.params.collection) {
+		case 'users':
+			Crud.create(req, res, next,'User');
+			break;
+		case 'characters':
+			Crud.create(req, res, next, 'Character');
 			break;
 		default:
 			res.status(404).json({message: 'Not found!'})
@@ -47,15 +65,14 @@ function authStrat(req, res, next){
 
 // == Routes ================================================================= //
 	Router
-		.get( '/:collection/:slug?',	(req, res, next) => User.isLoggedIn(req, res, next), (req, res) => getItems(req, res) )
+		.get( '/:collection/:slug?',	(req, res, next) => getItems(req, res) )
 
 		.post( '/auth/:strategy',		(req, res, next) => authStrat(req, res, next) )
 		
 		.post('/quests/update',			(req, res) => Quest.updateNode(req, res) )
 		.post('/quests/reset',			(req, res) => Quest.resetNodes(req, res) )
 
-		.post( '/users',				(req, res) => User.registerLocal(req, res) )
-		.post( '/characters',			(req, res, next) => User.isLoggedIn(req, res, next), (req, res) => Character.create(req, res) )
+		.post( '/:collection',			(req, res, next) => createItems(req, res, next) );
 
 // ================================================================= Routes == //
 
