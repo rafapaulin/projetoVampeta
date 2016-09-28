@@ -12,13 +12,16 @@ class Crud {
  */
 	static create(req, res, next, model){
 		let Model = this.modelNamer(model);
+		
+		if(req.params.collection === 'users'){
+			req.body.memberSince = new Date;
+			this.slugger(req, req.body.username);	// Create the slug based on userName
+		} else {
+			this.slugger(req, req.body.name);		// Create the slug based on entity name
+			req.body.createdOn = new Date;			// Set the creation date
+			req.body.createdBy = req.user._id;		// Set the author
+		}			
 
-		if(req.body.name)
-			this.slugger(req, req.body.name);		// Create the slug based on userName
-		if(req.body.username)
-			this.slugger(req, req.body.username);		// Create the slug based on userName
-
-		req.body.memberSince = new Date;				// Set the creation date
 		// == For Testing ============================================================ //
 			if(model === 'Character') {
 				req.body.quests = [
@@ -46,10 +49,33 @@ class Crud {
 				]
 			}
 		// ============================================================ For Testing == //
-		new Model(req.body).save(function(err){
-			if(!err)
-				res.status(201).json({message: `${req.body.name} successfully created.`});
-			else {
+
+
+		let newData = new Model(req.body);
+		newData.save(function(err){
+			if(!err && req.params.collection !== 'users') {
+				let $addToSet = {};
+				$addToSet[req.params.collection] = newData._id;
+				require('../models/UserModel').findByIdAndUpdate(	// Call users Model
+					req.user._id,									// Query
+					{$addToSet}, 									// Add a reference to the created object on the user profile
+					function(err, doc) {
+						if(!err) {
+							console.log('inseriu no array do user.');
+							res.status(201).json({message: `${req.body.name} successfully created.`});
+						} else {
+							let errorsMsgs = [];
+							for(var index in err.errors) { 
+								errorsMsgs.push(err.errors[index]['message']);
+							}
+							logger().error(errorsMsgs);				// Log error
+							res.status(500).json({message: err});	// Send error to client
+						}
+					}
+				);
+			} else if(!err && req.params.collection === 'users') {
+				res.status(201).json({message: `${req.body.username} successfully created.`});
+			} else {
 				let errorsMsgs = [];
 				for(var index in err.errors) { 
 					errorsMsgs.push(err.errors[index]['message']);

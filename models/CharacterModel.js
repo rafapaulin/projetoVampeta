@@ -32,7 +32,7 @@ var	mongoose		= require('mongoose'),
 				]
 			}
 		],
-		createdAt: {
+		createdOn: {
 			type: Date
 		},
 		createdBy: {
