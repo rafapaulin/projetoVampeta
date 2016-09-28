@@ -7,7 +7,7 @@ var	mongoose		= require('mongoose'),
 	saltFactor		= 10,
 
 	UserModel		= new Model({
-		name: {
+		username: {
 			type: String,
 			unique: true,
 			uniqueCaseInsensitive: true
