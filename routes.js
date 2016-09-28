@@ -65,13 +65,13 @@ function authStrat(req, res, next){
 
 // == Routes ================================================================= //
 	Router
-		.get( '/:collection/:slug?',	(req, res, next) => getItems(req, res) )
-
 		.post( '/auth/:strategy',		(req, res, next) => authStrat(req, res, next) )
+		.get( '/auth/:strategy',		(req, res, next) => authStrat(req, res, next) )
 		
 		.post('/quests/update',			(req, res) => Quest.updateNode(req, res) )
 		.post('/quests/reset',			(req, res) => Quest.resetNodes(req, res) )
 
+		.get( '/:collection/:slug?',	(req, res, next) => getItems(req, res) )
 		.post( '/:collection',			(req, res, next) => createItems(req, res, next) );
 
 // ================================================================= Routes == //

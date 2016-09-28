@@ -1,0 +1,70 @@
+// == Login ============================================================ //
+	POST Rota /auth/login
+	{
+		"username": "data (String)", 
+		"password": "data (String)"
+	}	
+// ============================================================ Login == //
+
+// == Logout ============================================================ //
+	GET Rota /auth/logout
+// ============================================================ Logout == //
+
+// == Create User ============================================================ //
+	POST Rota /users
+	{
+		"username": "data (String)",
+		"email": "data (String)",
+		"password": "data (String)"
+	}
+// ============================================================ Create User == //
+
+// == Create Char	 ============================================================ //
+	POST Rota /characters
+	{
+		"name": "data (String)",
+		"class": "data (String)",
+		"race": "data (String)"
+	}
+// ============================================================ Create Char	 == //
+
+// == Quest Padrão ============================================================ //
+	{
+		name: 'Vampeta\'s First Quest',
+		nodes: [
+			{
+				name: 'First node',
+				completed: false
+			},
+			{
+				name: 'Second node',
+				completed: false
+			},
+			{
+				name: 'Third node',
+				completed: false
+			},
+			{
+				name: 'Boss',
+				completed: false
+			}
+		]
+	}
+// ============================================================ Quest Padrão == //
+
+// == Update Quest ============================================================ //
+	POST Rota /quests/update
+	{
+		"character": "data (String [character slug])",
+		"quest": "data (String) [quest name]",
+		"node": "data (String) [node name]",
+		"completed": Boolean [geralmente true]
+	}
+// ============================================================ Update Quest == //
+
+// == Quest Reset ============================================================ //
+	POST Rota /quests/reset
+	{
+		"character": "data (String [character slug])"
+	}
+// ============================================================ Quest Reset == //

@@ -54,7 +54,8 @@ class User {
  */
 	static logOut(req, res){
 		req.logout();
-		res.redirect('/');
+		res.status(200).json({message: 'Deslogou'});
+		//res.redirect('/');
 	}
 }
 
