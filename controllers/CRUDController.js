@@ -14,6 +14,9 @@ class Crud {
 
 		if(req.body.name)
 			this.slugger(req, req.body.name);		// Create the slug based on userName
+		if(req.body.username)
+			this.slugger(req, req.body.username);		// Create the slug based on userName
+
 		req.body.memberSince = new Date;				// Set the creation date
 		// == For Testing ============================================================ //
 			if(model === 'Character') {

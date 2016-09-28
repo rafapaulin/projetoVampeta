@@ -14,7 +14,7 @@
  * @function passport.use(strategy)
  * @description This method logs the user in using local api credentials.
  * @param {string} strategy - Strategy used to authenticate the user.
- * @param {string} username - Username provided by the user.
+ * @param {string} name - name provided by the user.
  * @param {string} password - Password provided by the user.
  * @param {function} done - Callback function that return the authenticated user object.
  */
@@ -22,7 +22,7 @@
 		function(username, password, done) {
 			User.findOne({
 				$or: [						// Try to login using username or email
-					{userName: username},
+					{username: username},
 					{email: username},
 				]
 			}, function(err, user) {
