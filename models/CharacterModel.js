@@ -32,6 +32,13 @@ var	mongoose		= require('mongoose'),
 				]
 			}
 		],
+		party: {
+			type: Model.Types.ObjectId,
+			ref: 'Party',
+			autopopulate: {
+				select: 'members'
+			}
+		},
 		createdOn: {
 			type: Date
 		},
