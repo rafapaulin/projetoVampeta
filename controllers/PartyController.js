@@ -18,7 +18,7 @@ class Party {
 						{$set: {party: req.body.party}},
 						function(err, char){
 							if(!err){
-								res.status(201).json({message: `${char} has joined the party ${party.name}.`});
+								res.status(201).json({message: `${char.name} has joined the party ${party.name}.`});
 							} else {
 								let errorsMsgs = [];
 								for(var index in err.errors) { 
@@ -40,13 +40,5 @@ class Party {
 			}
 		);
 	}
-/* == Add to party =========================================================== //
-	POST Rota /parties/partySlug
-	{
-		"newMember": "57f94f072a34f40db18ba6d7",
-		"party": "57f95b1a5fc7be10f3f99ce1"
-
-	}
-// =========================================================== Add to party == */
 }
 module.exports = Party;
