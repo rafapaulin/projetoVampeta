@@ -1,4 +1,5 @@
 'use strict';
+require('../models/PartyModel')
 let logger		=	require("../libraries/logger");
 
 class Crud {
@@ -49,38 +50,73 @@ class Crud {
 				]
 			}
 		// ============================================================ For Testing == //
-
+		if(model === 'Party'){
+			req.body.members = [];
+			req.body.members.push(req.body.leader);
+		}
 
 		let newData = new Model(req.body);
 		newData.save(function(err){
-			if(!err && req.params.collection !== 'users') {
+			if(!err) {
 				let $addToSet = {};
-				$addToSet[req.params.collection] = newData._id;
-				require('../models/UserModel').findByIdAndUpdate(	// Call users Model
-					req.user._id,									// Query
-					{$addToSet}, 									// Add a reference to the created object on the user profile
-					function(err, doc) {
-						if(!err) {
-							console.log('inseriu no array do user.');
-							res.status(201).json({message: `${req.body.name} successfully created.`});
-						} else {
-							let errorsMsgs = [];
-							for(var index in err.errors) { 
-								errorsMsgs.push(err.errors[index]['message']);
+				switch (req.params.collection) {
+					case 'users':
+						res.status(201).json({message: `Account ${req.body.username} successfully created.`});
+						break;
+					case 'characters':
+						$addToSet['characters'] = newData._id;
+						require('../models/UserModel').findByIdAndUpdate(	// Call users Model
+							req.user._id,									// Query
+							{$addToSet}, 									// Add a reference to the created object on the user profile
+							function(err, doc) {
+								if(!err) {
+									console.log('inseriu no array do user.');
+									res.status(201).json({message: `${req.body.name} has arrived at the village.`});
+								} else {
+									let errorsMsgs = [];
+									for(var index in err.errors) { 
+										errorsMsgs.push(err.errors[index]['message']);
+									}
+									logger().error(errorsMsgs);				// Log error
+									res.status(500).json({message: err});	// Send error to client
+								}
 							}
-							logger().error(errorsMsgs);				// Log error
-							res.status(500).json({message: err});	// Send error to client
-						}
-					}
-				);
-			} else if(!err && req.params.collection === 'users') {
-				res.status(201).json({message: `${req.body.username} successfully created.`});
+						);
+						break;
+					case 'parties':
+						require('../models/CharacterModel').findByIdAndUpdate(
+							req.body.leader,
+							{$set: {party: newData._id}},
+							{new: true},
+							function(err, character){
+								if(!err) {
+									res.status(201).json({message: `${newData.name} has gathered.`});
+								} else {
+									let errorsMsgs = [];
+									for(var index in err.errors) { 
+										errorsMsgs.push(err.errors[index]['message']);
+									}
+									logger().error(errorsMsgs);				// Log error
+									res.status(500).json({message: err});	// Send error to client
+								}
+							}
+						);
+
+
+
+
+
+
+						break;
+					default:
+						res.status(404).json({message: 'Not found!'})
+				}
 			} else {
 				let errorsMsgs = [];
 				for(var index in err.errors) { 
 					errorsMsgs.push(err.errors[index]['message']);
 				}
-				logger().error(errorsMsgs);						// Log error
+				logger().error(errorsMsgs);				// Log error
 				res.status(500).json({message: err});	// Send error to client
 			}
 		});
@@ -120,7 +156,6 @@ class Crud {
  */
 	static list(req, res, next, model){
 		let Model = this.modelNamer(model);
-
 		Model.find(function(err, items){
 			if (!err)
 				res.status(200).json(items);						// Send list of items to client

@@ -120,4 +120,4 @@ var	mongoose		= require('mongoose'),
 UserModel.plugin(uniqueV);								// validate unique values
 UserModel.plugin(autopopulate);						// Autopopulate users
 
-module.exports = mongoose.model('User', UserModel);	// Export module
+module.exports = mongoose.model('User', UserModel); // Export module

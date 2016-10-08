@@ -55,16 +55,43 @@
 // == Update Quest ============================================================ //
 	POST Rota /quests/update
 	{
-		"character": "data (String [character slug])",
-		"quest": "data (String) [quest name]",
-		"node": "data (String) [node name]",
-		"completed": Boolean [geralmente true]
+		"character": "data (String <character slug>)",
+		"quest": "data (String) <quest name>",
+		"node": "data (String) <node name>",
+		"completed": Boolean <geralmente true>
 	}
 // ============================================================ Update Quest == //
 
 // == Quest Reset ============================================================ //
 	POST Rota /quests/reset
 	{
-		"character": "data (String [character slug])"
+		"character": "data (String <character slug>)"
 	}
 // ============================================================ Quest Reset == //
+
+// == GET all quests from a character ======================================== //
+	GET Rota /quests/characterSlug
+	Retorna array das quests do character
+	{
+		"quests": [
+			"data <json de quests>"
+		]
+	}
+// ======================================== GET all quests from a character == //
+
+// == Create Party =========================================================== //
+	POST Rota /parties
+	{
+		"name": "data (String)",
+		"leader": "data (_id <character _id>)"
+	}
+// =========================================================== Create Party == //
+
+// == Add to party =========================================================== //
+	POST Rota /parties/partySlug
+	{
+		"newPartyMember": "data (_id <character _id>)",
+		"party": "data (_id <party _id>)"
+
+	}
+// =========================================================== Add to party == //

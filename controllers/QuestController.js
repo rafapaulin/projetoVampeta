@@ -83,6 +83,26 @@ class Quest {
 			}
 		);
 	}
+	static statusAll(req, res){
+		CharacterModel.findOne(
+			{'slug': req.params.character},			// Query parameters
+			function(err, character){				// Get the requested document to deal with data
+				if (!err){
+					let quests = [];
+					for (let i = 0; i < character.quests.length ; i++) {
+						quests.push(character.quests[i]);
+					}
+					res.status(201).json({quests: quests})
+				}
+				else {
+					let errorsMsgs = [];
+					for(var index in err.errors) {
+						errorsMsgs.push(err.errors[index]['message']);
+					}
+					logger().error(errorsMsgs);						// Log error
+				}
+			}
+		);
+	}
 }
 module.exports = Quest;
-//{"character": "the-try"}
