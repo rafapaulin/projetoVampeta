@@ -18,7 +18,7 @@ class Party {
 						{$set: {party: req.body.party}},
 						function(err, char){
 							if(!err){
-								res.status(201).json({message: `${char} has joined the party ${party.name}.`});
+								res.status(201).json({message: `${char.name} has joined the party ${party.name}.`});
 							} else {
 								let errorsMsgs = [];
 								for(var index in err.errors) { 
