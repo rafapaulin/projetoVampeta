@@ -40,13 +40,5 @@ class Party {
 			}
 		);
 	}
-/* == Add to party =========================================================== //
-	POST Rota /parties/partySlug
-	{
-		"newMember": "57f94f072a34f40db18ba6d7",
-		"party": "57f95b1a5fc7be10f3f99ce1"
-
-	}
-// =========================================================== Add to party == */
 }
 module.exports = Party;
