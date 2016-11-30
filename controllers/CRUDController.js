@@ -66,7 +66,7 @@ class Crud {
 					case 'characters':
 						$addToSet['characters'] = newData._id;
 						require('../models/UserModel').findByIdAndUpdate(	// Call users Model
-							req.user._id,									// Query
+							req.body.usrid,										// Query
 							{$addToSet}, 									// Add a reference to the created object on the user profile
 							function(err, doc) {
 								if(!err) {

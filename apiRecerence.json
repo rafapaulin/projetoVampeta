@@ -24,7 +24,8 @@
 	{
 		"name": "data (String)",
 		"class": "data (String)",
-		"race": "data (String)"
+		"race": "data (String)",
+		"usrid": "id"
 	}
 // ============================================================ Create Char	 == //
 
