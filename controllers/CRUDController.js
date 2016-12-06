@@ -56,6 +56,8 @@ class Crud {
 		}
 
 		let newData = new Model(req.body);
+		console.log(`\nnewData\n`);
+		console.log(newData);
 		newData.save(function(err){
 			if(!err) {
 				let $addToSet = {};
@@ -64,6 +66,7 @@ class Crud {
 						res.status(201).json({message: `Account ${req.body.username} successfully created.`});
 						break;
 					case 'characters':
+						console.log(`\nCaiu no case certo\n`);
 						$addToSet['characters'] = newData._id;
 						require('../models/UserModel').findByIdAndUpdate(	// Call users Model
 							req.body.usrid,										// Query
