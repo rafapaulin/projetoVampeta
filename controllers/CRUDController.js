@@ -20,7 +20,7 @@ class Crud {
 		} else {
 			this.slugger(req, req.body.name);		// Create the slug based on entity name
 			req.body.createdOn = new Date;			// Set the creation date
-			req.body.createdBy = req.user._id;		// Set the author
+			req.body.createdBy = req.body.usrid;		// Set the author
 		}			
 
 		// == For Testing ============================================================ //
