@@ -38,7 +38,8 @@ var	mongoose		= require('mongoose'),
 		characters: [
 			{
 				type: Model.Types.ObjectId,
-				ref: 'Character'
+				ref: 'Character',
+				autopopulate: true
 			}
 		],
 		// socialIDs: {

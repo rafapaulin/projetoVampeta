@@ -18,7 +18,9 @@ var	mongoose		= require('mongoose'),
 		leader: {
 			type: Model.Types.ObjectId,
 			ref: 'Character',
-			autopopulate: true
+			autopopulate: {
+				select: 'name'
+			}
 		},
 		members: [
 			{

@@ -1,7 +1,7 @@
 'use strict';
 require('../libraries/passport');
-
 let logger		= require("../libraries/logger"),
+	UserModel	= require('../models/UserModel'),
 	passport	= require('passport');	
 /** Class representing a User. */
 class User {
@@ -57,6 +57,25 @@ class User {
 		res.status(200).json({message: 'Deslogou'});
 		//res.redirect('/');
 	}
+
+	static charList(req, res){
+		UserModel.findById(
+			req.body.usrid,
+			function(err, user){								// Get the requested document to deal with data
+				if (!err)
+					res.status(200).json(user.characters);		// Send characters to client
+				else {
+					let errorsMsgs = [];
+					for(var index in err.errors) {
+						errorsMsgs.push(err.errors[index]['message']);
+					}
+					logger().error(errorsMsgs);						// Log error
+					res.status(500).json({message: errorsMsgs});	// Send error to client
+				}
+			}
+		);
+	}
+
 }
 
 module.exports = User;

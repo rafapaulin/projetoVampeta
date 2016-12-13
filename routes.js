@@ -76,6 +76,8 @@ function authStrat(req, res, next){
 		.post('/quests/reset',			(req, res) => Quest.resetNodes(req, res) )
 		.get( '/quests/:character',		(req, res) => Quest.statusAll(req, res))
 
+		.post( '/user/characters', 		(req, res) => User.charList(req, res) )
+
 		.post( '/parties/newMember',	(req, res, next) =>  Party.addMember(req, res, next) )
 
 		.get( '/:collection/:slug?',	(req, res, next) => getItems(req, res) )
