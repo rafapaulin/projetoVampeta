@@ -93,7 +93,10 @@ class Crud {
 							{new: true},
 							function(err, character){
 								if(!err) {
-									res.status(201).json({message: `${newData.name} has gathered.`});
+									res.status(201).json({
+										newPartyID: newData._id,
+										message: `${newData.name} has gathered.`
+									});
 								} else {
 									let errorsMsgs = [];
 									for(var index in err.errors) { 
@@ -104,12 +107,6 @@ class Crud {
 								}
 							}
 						);
-
-
-
-
-
-
 						break;
 					default:
 						res.status(404).json({message: 'Not found!'})
