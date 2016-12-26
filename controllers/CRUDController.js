@@ -56,7 +56,7 @@ class Crud {
 		}
 
 		let newData = new Model(req.body);
-		newData.save(function(err){
+		newData.save(function(err, char){
 			if(!err) {
 				let $addToSet = {};
 				switch (req.params.collection) {
@@ -71,7 +71,10 @@ class Crud {
 							function(err, doc) {
 								if(!err) {
 									console.log('inseriu no array do user.');
-									res.status(201).json({message: `${req.body.name} has arrived at the village.`});
+									res.status(201).json({
+										newCharID: char._id,
+										message: `${req.body.name} has arrived at the village.`
+									});
 								} else {
 									let errorsMsgs = [];
 									for(var index in err.errors) { 
