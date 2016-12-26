@@ -5,8 +5,8 @@ let logger			= require("../libraries/logger"),
 /** Class representing a Quest. */
 class Quest {
 	static updateNode(req, res){
-		CharacterModel.findOne(
-			{'slug': req.body.character},								// Query parameters
+		CharacterModel.findById(
+			req.body.character,								// Query parameters
 			function(err, character){								// Get the requested document to deal with data
 				if (!err){
 					for (let i = character.quests.length - 1; i >= 0; i--) {
@@ -17,8 +17,8 @@ class Quest {
 							}
 						}
 					}
-					CharacterModel.findOneAndUpdate(							// Load correct model
-						{slug: character.slug},										// Query by item slug
+					CharacterModel.findByIdAndUpdate(							// Load correct model
+						character._id,										// Query by item id
 						{$set: character},											// New Data
 						function(err){											// If error, throw it to client
 							if(err) {

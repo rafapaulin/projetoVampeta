@@ -56,7 +56,7 @@
 // == Update Quest ============================================================ //
 	POST Rota /quests/update
 	{
-		"character": "data (String <character slug>)",
+		"character": "data (_id <character _id>)",
 		"quest": "data (String) <quest name>",
 		"node": "data (String) <node name>",
 		"completed": Boolean <geralmente true>
